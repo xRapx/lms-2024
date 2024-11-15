@@ -1,0 +1,4 @@
+Install:
+- npm i --save-dev nodemon
+- npm i bcryptjs cloudinary cors express mongoose dotenv jsonwebtoken multer paypal-rest-sdk
+- npm install -D tailwindcss postcss autoprefixer
