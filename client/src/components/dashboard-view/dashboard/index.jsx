@@ -48,12 +48,12 @@ function Dashboard() {
     {
       icon: Users,
       label: "Total Students",
-      value: "totalStudents",
+      value: "total students",
     },
     {
       icon: DollarSign,
-      label: "Total Revenue",
-      value: "totalProfit",
+      label: "Total Courses",
+      value: "total courses",
     },
   ];
 

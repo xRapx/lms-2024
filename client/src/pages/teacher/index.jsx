@@ -5,36 +5,38 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 // import { AuthContext } from "@/context/auth-context";
 // import { InstructorContext } from "@/context/instructor-context";
 // import { fetchInstructorCourseListService } from "@/services";
-import { BarChart, Book, LogOut } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { ArrowLeft, BarChart, Book, LogOut } from "lucide-react";
+import {  useState } from "react";
+// import StudentHomePage from "../student/home";
+import { Link } from "react-router-dom";
 
 function Dashboardpage() {
   const [activeTab, setActiveTab] = useState("dashboard");
-//   const { resetCredentials } = useContext(AuthContext);
-//   const { instructorCoursesList, setInstructorCoursesList } =
-//     useContext(InstructorContext);
+  //   const { resetCredentials } = useContext(AuthContext);
+  //   const { instructorCoursesList, setInstructorCoursesList } =
+  //     useContext(InstructorContext);
 
-//   async function fetchAllCourses() {
-//     const response = await fetchInstructorCourseListService();
-//     if (response?.success) setInstructorCoursesList(response?.data);
-//   }
+  //   async function fetchAllCourses() {
+  //     const response = await fetchInstructorCourseListService();
+  //     if (response?.success) setInstructorCoursesList(response?.data);
+  //   }
 
-//   useEffect(() => {
-//     fetchAllCourses();
-//   }, []);
+  //   useEffect(() => {
+  //     fetchAllCourses();
+  //   }, []);
 
   const menuItems = [
     {
       icon: BarChart,
       label: "Dashboard",
       value: "dashboard",
-      component: <DashBoard  />,
+      component: <DashBoard />,
     },
     {
       icon: Book,
       label: "Courses",
       value: "courses",
-      component: <DashBoardCourses  />,
+      component: <DashBoardCourses />,
     },
     {
       icon: LogOut,
@@ -44,12 +46,12 @@ function Dashboardpage() {
     },
   ];
 
-  function handleLogout() {
-    resetCredentials();
-    sessionStorage.clear();
-  }
+//   function handleLogout() {
+//     resetCredentials();
+//     sessionStorage.clear();
+//   }
 
-//   console.log(instructorCoursesList, "instructorCoursesList");
+  //   console.log(instructorCoursesList, "instructorCoursesList");
 
   return (
     <div className="flex h-full min-h-screen bg-gray-100">
@@ -62,11 +64,11 @@ function Dashboardpage() {
                 className="w-full justify-start mb-2"
                 key={menuItem.value}
                 variant={activeTab === menuItem.value ? "secondary" : "ghost"}
-                onClick={
-                  menuItem.value === "logout"
-                    ? handleLogout
-                    : () => setActiveTab(menuItem.value)
-                }
+                // onClick={
+                //   menuItem.value === "logout"
+                //     ? handleLogout
+                //     : () => setActiveTab(menuItem.value)
+                // }
               >
                 <menuItem.icon className="mr-2 h-4 w-4" />
                 {menuItem.label}
@@ -77,9 +79,17 @@ function Dashboardpage() {
       </aside>
       <main className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-7xl mx-auto">
+          <Link to="/">
+          	<div className="flex items-center justify-center space-x-2 text-xl text-left hover:bg-white mb-4 w-40 rounded-full">
+	            <ArrowLeft />
+	            <span>
+					Home
+				</span>
+	          </div>
+          </Link>
           <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            {menuItems.map((menuItem ,idx) => (
+            {menuItems.map((menuItem, idx) => (
               <TabsContent key={idx} value={menuItem.value}>
                 {menuItem.component !== null ? menuItem.component : null}
               </TabsContent>

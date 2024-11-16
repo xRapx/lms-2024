@@ -24,13 +24,12 @@ function App() {
           {/* <Route path="/" element={<AuthPage/>}/> */}
           <Route path="" element={<StudentHomePage/>}/>
           <Route path="home" element={<StudentHomePage/>}/>
+          
           <Route path="courses" element={<StudentViewCoursesPage />} />
-          <Route
-            path="course/details"
-            element={<StudentViewCourseDetailsPage />}
+          <Route path="course/details" element={<StudentViewCourseDetailsPage />}
           />
-          {/* <Route path="payment-return" element={<PaypalPaymentReturnPage />} /> */}
           <Route path="student-courses" element={<StudentCoursesPage />} />
+          {/* <Route path="payment-return" element={<PaypalPaymentReturnPage />} /> */}
           <Route
             path="course-progress/:id"
             element={<StudentViewCourseProgressPage />}
