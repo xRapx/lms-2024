@@ -1,18 +1,22 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require("cors")
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const authRoutes = require('./router/auth-router/index');
+const courseRoutes = require('./router/course-router/index')
 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO = process.env.MONGO
 
-cors({
-	origin :  process.env.CLIENT,
-	methods : ['GET' , 'POST' , 'DELETE' ,'PUT'],
-	allowedHeaders:['Content-Type', 'Authorization'],
-})
+app.use(
+	cors({
+	  origin: process.env.CLIENT,
+	  methods: ["GET", "POST", "DELETE", "PUT"],
+	  allowedHeaders: ["Content-Type", "Authorization"],
+	})
+);
 
 app.use(express.json());
 
@@ -23,7 +27,9 @@ mongoose
 .catch((e) => console.log(e))
 
 //routers configuration
-
+app.use("/auth", authRoutes);
+app.use("/dashboard/course", courseRoutes);
+	
 
 app.use((err,req,res,next) => {
 	console.log(err.stack);

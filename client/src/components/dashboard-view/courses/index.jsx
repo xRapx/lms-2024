@@ -8,34 +8,34 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-// import {
-//   courseCurriculumInitialFormData,
-//   courseLandingInitialFormData,
-// } from "@/config";
-// import { InstructorContext } from "@/context/instructor-context";
+import {
+  courseCurriculumInitialFormData,
+  courseLandingInitialFormData,
+} from "@/config";
+import { TeacherContext } from "@/context/teacher-context";
 import { Delete, Edit } from "lucide-react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-function DashBoardCourses() {
+function TeacherCourses({ listOfCourses }) {
   const navigate = useNavigate();
-  //   const {
-  //     setCurrentEditedCourseId,
-  //     setCourseLandingFormData,
-  //     setCourseCurriculumFormData,
-  //   } = useContext(InstructorContext);
+  const {
+    setCurrentEditedCourseId,
+    setCourseLandingFormData,
+    setCourseCurriculumFormData,
+  } = useContext(TeacherContext);
 
   return (
     <Card>
       <CardHeader className="flex justify-between flex-row items-center">
         <CardTitle className="text-3xl font-extrabold">All Courses</CardTitle>
         <Button
-          //   onClick={() => {
-          //     setCurrentEditedCourseId(null);
-          //     setCourseLandingFormData(courseLandingInitialFormData);
-          //     setCourseCurriculumFormData(courseCurriculumInitialFormData);
-          //     navigate("/instructor/create-new-course");
-          //   }}
+          onClick={() => {
+            setCurrentEditedCourseId(null);
+            setCourseLandingFormData(courseLandingInitialFormData);
+            setCourseCurriculumFormData(courseCurriculumInitialFormData);
+            navigate("/dashboard/create-new-course");
+          }}
           className="p-6"
         >
           Create New Course
@@ -46,32 +46,40 @@ function DashBoardCourses() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-center">Course</TableHead>
-                <TableHead className="text-center">Students</TableHead>
-                <TableHead className="text-center">Revenue</TableHead>
-                <TableHead className="text-center">Actions</TableHead>
+                <TableHead>Course</TableHead>
+                <TableHead>Students</TableHead>
+                <TableHead>Revenue</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">title</TableCell>
-                <TableCell>students course</TableCell>
-                <TableCell>$300</TableCell>
-                <TableCell >
-                  <Button
-                    //   onClick={() => {
-                    //     navigate(`/instructor/edit-course/${course?._id}`);
-                    //   }}
-                    variant="ghost"
-                    size="sm"
-                  >
-                    <Edit className="h-6 w-6" />
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <Delete className="h-6 w-6" />
-                  </Button>
-                </TableCell>
-              </TableRow>
+              {listOfCourses && listOfCourses.length > 0
+                ? listOfCourses?.map((course) => (
+                    <TableRow key={course._id}>
+                      <TableCell className="font-medium">
+                        {course?.title}
+                      </TableCell>
+                      <TableCell>{course?.students?.length}</TableCell>
+                      <TableCell>
+                        ${course?.students?.length * course?.pricing}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          onClick={() => {
+                            navigate(`/instructor/edit-course/${course?._id}`);
+                          }}
+                          variant="ghost"
+                          size="sm"
+                        >
+                          <Edit className="h-6 w-6" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <Delete className="h-6 w-6" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                : null}
             </TableBody>
           </Table>
         </div>
@@ -80,4 +88,4 @@ function DashBoardCourses() {
   );
 }
 
-export default DashBoardCourses;
+export default TeacherCourses;

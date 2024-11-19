@@ -15,6 +15,7 @@ function FormControls({ formControls = [], formData, setFormData }) {
 
 	function renderComponentByType(getControlItem) {
 		let element = null
+		const currentControlItemValue = formData[getControlItem.name] || "";
 
 		switch (getControlItem.componentType) {
 			case 'input':
@@ -24,7 +25,7 @@ function FormControls({ formControls = [], formData, setFormData }) {
 					name={getControlItem.name}
 					placeholder={getControlItem.placeholder}
 					type={getControlItem.type}
-					// value={currentControlItemValue}
+					value={currentControlItemValue}
 					onChange={(event) =>
 						setFormData({
 						  ...formData,
@@ -58,7 +59,7 @@ function FormControls({ formControls = [], formData, setFormData }) {
 				id={getControlItem.name}
 				name={getControlItem.name}
 				placeholder={getControlItem.placeholder}
-				// value={currentControlItemValue}
+				value={currentControlItemValue}
 				/>
 				break;
 			default:
@@ -68,13 +69,13 @@ function FormControls({ formControls = [], formData, setFormData }) {
 					  name={getControlItem.name}
 					  placeholder={getControlItem.placeholder}
 					  type={getControlItem.type}
-					//   value={currentControlItemValue}
-					//   onChange={(event) =>
-					// 	setFormData({
-					// 	  ...formData,
-					// 	  [getControlItem.name]: event.target.value,
-					// 	})
-					//   }
+					  value={currentControlItemValue}
+					  onChange={(event) =>
+						setFormData({
+						  ...formData,
+						  [getControlItem.name]: event.target.value,
+						})
+					  }
 					/>
 				  );
 				break;
@@ -84,10 +85,10 @@ function FormControls({ formControls = [], formData, setFormData }) {
 
 	return (
 		<div className="flex flex-col gap-3">
-		{formControls.map((controleItem) => (
-		  <div key={controleItem.name}>
-			<Label className="w-full" htmlFor={controleItem.name}>{controleItem.label}</Label>
-			{renderComponentByType(controleItem)}
+		{formControls.map((item) => (
+		  <div key={item.name}>
+			<Label className="w-full" htmlFor={item.name}>{item.label}</Label>
+			{renderComponentByType(item)}
 		  </div>
 		))}
 	  </div>
