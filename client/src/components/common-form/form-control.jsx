@@ -35,22 +35,31 @@ function FormControls({ formControls = [], formData, setFormData }) {
 				/>
 				break;
 
-			case 'select':
-				element = 
-				<Select>
-					<SelectTrigger className="w-full">
-						<SelectValue placeholder={getControlItem.label} />
-					</SelectTrigger>
-					<SelectContent>
-						{getControlItem.options && getControlItem.options.length > 0
+				case "select":
+					element = (
+					  <Select
+						onValueChange={(value) =>
+						  setFormData({
+							...formData,
+							[getControlItem.name]: value,
+						  })
+						}
+						value={currentControlItemValue}
+					  >
+						<SelectTrigger className="w-full">
+						  <SelectValue placeholder={getControlItem.label} />
+						</SelectTrigger>
+						<SelectContent>
+						  {getControlItem.options && getControlItem.options.length > 0
 							? getControlItem.options.map((optionItem) => (
 								<SelectItem key={optionItem.id} value={optionItem.id}>
-									{optionItem.label}
+								  {optionItem.label}
 								</SelectItem>
-							))
+							  ))
 							: null}
-					</SelectContent>
-				</Select>
+						</SelectContent>
+					  </Select>
+					);
 				break;
 
 			case 'textarea':
@@ -60,6 +69,12 @@ function FormControls({ formControls = [], formData, setFormData }) {
 				name={getControlItem.name}
 				placeholder={getControlItem.placeholder}
 				value={currentControlItemValue}
+				onChange={(event) =>
+					setFormData({
+					  ...formData,
+					  [getControlItem.name]: event.target.value,
+					})
+				  }
 				/>
 				break;
 			default:

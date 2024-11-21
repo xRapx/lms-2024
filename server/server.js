@@ -4,6 +4,7 @@ const cors = require("cors")
 const mongoose = require("mongoose");
 const authRoutes = require('./router/auth-router/index');
 const courseRoutes = require('./router/course-router/index')
+const studentRoutes = require('./router/student-router/index')
 
 
 const app = express();
@@ -29,6 +30,7 @@ mongoose
 //routers configuration
 app.use("/auth", authRoutes);
 app.use("/dashboard/course", courseRoutes);
+app.use("/student/course", studentRoutes);
 	
 
 app.use((err,req,res,next) => {

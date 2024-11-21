@@ -11,9 +11,9 @@ function RouteGuard({ element }) {
 
   console.log(authenticated, user, "useruser");
 
-  if (!authenticated && !location.pathname.includes("/auth")) {
-    return <Navigate to="/auth" />;
-  }
+  // if (!authenticated && !location.pathname.includes("/auth")) {
+  //   return <Navigate to="/auth" />;
+  // }
 
   if (authenticated && user?.role === "admin") {
     return <Fragment>{element}</Fragment>;

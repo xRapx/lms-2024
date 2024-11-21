@@ -13,7 +13,7 @@ import { AuthContext } from "@/context/auth-context";
 import { TeacherContext } from "@/context/teacher-context";
 import {
   addNewCourseService,
-  fetchTeacherCourseListService,
+  getAllCourseListService,
   updateCourseByIdService,
 } from "@/services";
 import { useContext, useEffect } from "react";
@@ -21,9 +21,9 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function AddNewCoursePage() {
   const {
-    courseLandingFormData,
-    courseCurriculumFormData,
-    setCourseLandingFormData,
+    courseLandingFormData,    // form course
+    courseCurriculumFormData, // video course
+    setCourseLandingFormData, 
     setCourseCurriculumFormData,
     currentEditedCourseId,
     setCurrentEditedCourseId,
@@ -44,29 +44,30 @@ function AddNewCoursePage() {
   }
 
   function validateFormData() {
+    // let hasFreePreview = false;
+
     for (const key in courseLandingFormData) {
       if (isEmpty(courseLandingFormData[key])) {
         return false;
       }
     }
 
-    let hasFreePreview = false;
 
-    for (const item of courseCurriculumFormData) {
-      if (
-        isEmpty(item.title) ||
-        isEmpty(item.videoUrl) ||
-        isEmpty(item.public_id)
-      ) {
-        return false;
-      }
+    // for (const item of courseCurriculumFormData) {
+    //   if (
+    //     isEmpty(item.title) ||
+    //     isEmpty(item.videoUrl) ||
+    //     isEmpty(item.public_id)
+    //   ) {
+    //     return false;
+    //   }
 
-      if (item.freePreview) {
-        hasFreePreview = true; //found at least one free preview
-      }
-    }
+    //   if (item.freePreview) {
+    //     hasFreePreview = true; //found at least one free preview
+    //   }
+    // }
 
-    return hasFreePreview;
+    return  true;
   }
 
   async function handleCreateCourse() {
@@ -80,26 +81,26 @@ function AddNewCoursePage() {
       isPublised: true,
     };
 
-    const response =
-      currentEditedCourseId !== null
-        ? await updateCourseByIdService(
-            currentEditedCourseId,
-            courseFinalFormData
-          )
-        : await addNewCourseService(courseFinalFormData);
+    // const response =
+    //   currentEditedCourseId !== null
+       // // ? await updateCourseByIdService(
+    //         currentEditedCourseId,
+    //         courseFinalFormData
+    //       )
+    //     : await addNewCourseService(courseFinalFormData);
 
-    if (response?.success) {
-      setCourseLandingFormData(courseLandingInitialFormData);
-      setCourseCurriculumFormData(courseCurriculumInitialFormData);
-      navigate(-1);
-      setCurrentEditedCourseId(null);
-    }
+    // if (response?.success) {
+    //   setCourseLandingFormData(courseLandingInitialFormData);
+    //   setCourseCurriculumFormData(courseCurriculumInitialFormData);
+    //   navigate(-1);
+    //   setCurrentEditedCourseId(null);
+    // }
 
     console.log(courseFinalFormData, "courseFinalFormData");
   }
 
   async function fetchCurrentCourseDetails() {
-    const response = await fetchTeacherCourseListService(
+    const response = await getAllCourseListService(
       currentEditedCourseId
     );
 
@@ -135,7 +136,7 @@ function AddNewCoursePage() {
       <div className="flex justify-between">
         <h1 className="text-3xl font-extrabold mb-5">Create a new course</h1>
         <Button
-          disabled={!validateFormData()}
+          // disabled={!validateFormData()}
           className="text-sm tracking-wider font-bold px-8"
           onClick={handleCreateCourse}
         >

@@ -29,7 +29,7 @@ export async function addNewCourseService(formData) {
 
   return data;
 }
-export async function fetchTeacherCourseListService() {
+export async function getAllCourseListService() {
   const { data } = await axiosInstance.get(`/dashboard/course/get`);
 
   return data;
@@ -37,9 +37,19 @@ export async function fetchTeacherCourseListService() {
 
 export async function updateCourseByIdService(id, formData) {
   const { data } = await axiosInstance.put(
-    `/instructor/course/update/${id}`,
+    `/dashboard/course/update/${id}`,
     formData
   );
+
+  return data;
+}
+
+// student service
+export async function fetchCourseDetailsService(courseId) {
+  const { data } = await axiosInstance.get(
+    `/student/course/get/details/${courseId}`
+  );
+
 
   return data;
 }
