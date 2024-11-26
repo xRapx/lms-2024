@@ -1,4 +1,5 @@
 import axiosInstance from "@/axios/axiosInstance";
+import axios from "axios";
 
 export async function registerService(formData) {
   const { data } = await axiosInstance.post("/auth/register", {
@@ -54,6 +55,6 @@ export async function fetchCourseDetailsService(courseId) {
 }
 // get Data course demo
 export async function getDataDemo(){
-  const { data } = await axiosInstance.get(`/dashboard/course/get-data`);
+  const { data } = await axios.get(`https://server-lms-2024.onrender.com/dashboard/course/get-data`);
   return data;
 }
