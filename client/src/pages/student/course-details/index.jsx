@@ -2,14 +2,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // import VideoPlayer from "@/components/video-player";
 import { AuthContext } from "@/context/auth-context";
 import { StudentContext } from "@/context/student-context";
@@ -18,7 +16,18 @@ import {
   // createPaymentService,
   fetchCourseDetailsService,
 } from "@/services";
-import { CheckCircle, Globe, Lock, PlayCircle } from "lucide-react";
+import axios from "axios";
+import {
+  BookOpen,
+  CheckCircle,
+  ChevronDown,
+  ChevronsUpDown,
+  FileText,
+  Globe,
+  Lock,
+  PlayCircle,
+  VideoIcon,
+} from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -34,13 +43,43 @@ function StudentViewCourseDetailsPage() {
 
   const { auth } = useContext(AuthContext);
 
-  const [displayCurrentVideoFreePreview, setDisplayCurrentVideoFreePreview] =
-    useState(null);
-  const [showFreePreviewDialog, setShowFreePreviewDialog] = useState(false);
   const [approvalUrl, setApprovalUrl] = useState("");
+
+  //Collapsible ui sate
+  const [isModule1Open, setIsModule1Open] = useState(false);
+  const [isModule2Open, setIsModule2Open] = useState(false);
+  const [activeTab, setActiveTab] = useState("overview");
+
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
+
+  // demo subject data====================================
+  const [subjects, setSubjects] = useState([]);
+  const [examboard, setExamboard] = useState([]);
+  console.log(subjects);
+  console.log(examboard);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/dashboard/course/subjects"
+        );
+        console.log(response);
+        if (response.data.success) {
+          setSubjects(response.data.data);
+          setExamboard(response.data.data.subject.examBoards);
+        } else {
+          console.error("Failed to fetch data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+  // end demo==========================================
 
   async function fetchStudentViewCourseDetails() {
     // const checkCoursePurchaseInfoResponse =
@@ -57,9 +96,7 @@ function StudentViewCourseDetailsPage() {
     //   return;
     // }
 
-    const response = await fetchCourseDetailsService(
-      currentCourseDetailsId
-    );
+    const response = await fetchCourseDetailsService(currentCourseDetailsId);
 
     if (response?.success) {
       setStudentViewCourseDetails(response?.data);
@@ -69,46 +106,6 @@ function StudentViewCourseDetailsPage() {
       setLoadingState(false);
     }
   }
-
-  function handleSetFreePreview(getCurrentVideoInfo) {
-    console.log(getCurrentVideoInfo);
-    setDisplayCurrentVideoFreePreview(getCurrentVideoInfo?.videoUrl);
-  }
-
-  async function handleCreatePayment() {
-    // const paymentPayload = {
-    //   userId: auth?.user?._id,
-    //   userName: auth?.user?.userName,
-    //   userEmail: auth?.user?.userEmail,
-    //   orderStatus: "pending",
-    //   paymentMethod: "paypal",
-    //   paymentStatus: "initiated",
-    //   orderDate: new Date(),
-    //   paymentId: "",
-    //   payerId: "",
-    //   instructorId: studentViewCourseDetails?.instructorId,
-    //   instructorName: studentViewCourseDetails?.instructorName,
-    //   courseImage: studentViewCourseDetails?.image,
-    //   courseTitle: studentViewCourseDetails?.title,
-    //   courseId: studentViewCourseDetails?._id,
-    //   coursePricing: studentViewCourseDetails?.pricing,
-    // };
-
-    // console.log(paymentPayload, "paymentPayload");
-    // // const response = await createPaymentService(paymentPayload);
-
-    // if (response.success) {
-    //   sessionStorage.setItem(
-    //     "currentOrderId",
-    //     JSON.stringify(response?.data?.orderId)
-    //   );
-    //   setApprovalUrl(response?.data?.approveUrl);
-    // }
-  }
-
-  useEffect(() => {
-    if (displayCurrentVideoFreePreview !== null) setShowFreePreviewDialog(true);
-  }, [displayCurrentVideoFreePreview]);
 
   useEffect(() => {
     if (currentCourseDetailsId !== null) fetchStudentViewCourseDetails();
@@ -120,9 +117,7 @@ function StudentViewCourseDetailsPage() {
 
   useEffect(() => {
     if (!location.pathname.includes("course/details"))
-      setStudentViewCourseDetails(null),
-        setCurrentCourseDetailsId(null),
-        setCoursePurchaseId(null);
+      setStudentViewCourseDetails(null), setCurrentCourseDetailsId(null);
   }, [location.pathname]);
 
   if (loadingState) return <Skeleton />;
@@ -131,160 +126,220 @@ function StudentViewCourseDetailsPage() {
     window.location.href = approvalUrl;
   }
 
-  const getIndexOfFreePreviewUrl =
-    studentViewCourseDetails !== null
-      ? studentViewCourseDetails?.curriculum?.findIndex(
-          (item) => item.freePreview
-        )
-      : -1;
+  const modules = [
+    {
+      title: "Module 1: Introduction",
+      lessons: [
+        { icon: BookOpen, title: "Lesson 1: Course Overview", value:"item1" },
+        { icon: VideoIcon, title: "Lesson 2: Getting Started",value:"item2" },
+        { icon: FileText, title: "Quiz: Module 1 Assessment",value:"item3" },
+      ],
+    },
+    {
+      title: "Module 2: Core Concepts",
+      lessons: [
+        { icon: VideoIcon, title: "Lesson 1: Fundamental wwwwwwwwww" ,value:"item4"},
+        { icon: BookOpen, title: "Lesson 2: Key Theories" ,value:"item5"},
+        { icon: FileText, title: "Assignment: Analysis", value:"item6" },
+      ],
+    },
+  ];
 
   return (
-    <div className=" mx-auto p-4">
-      <div className="bg-gray-900 text-white p-8 rounded-t-lg">
-        <h1 className="text-3xl font-bold mb-4">
-          {studentViewCourseDetails?.title}
-        </h1>
-        <p className="text-xl mb-4">{studentViewCourseDetails?.subtitle}</p>
-        <div className="flex items-center space-x-4 mt-2 text-sm">
-          <span>Created By {studentViewCourseDetails?.instructorName}</span>
-          <span>Created On {studentViewCourseDetails?.date.split("T")[0]}</span>
-          <span className="flex items-center">
-            <Globe className="mr-1 h-4 w-4" />
-            {studentViewCourseDetails?.primaryLanguage}
-          </span>
-          <span>
-            {studentViewCourseDetails?.students.length}{" "}
-            {studentViewCourseDetails?.students.length <= 1
-              ? "Student"
-              : "Students"}
-          </span>
-        </div>
-      </div>
-      <div className="flex flex-col md:flex-row gap-8 mt-8">
-        <main className="flex-grow flex-1 md:flex-[3]">
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>What you'll learn</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {studentViewCourseDetails?.objectives
-                  .split(",")
-                  .map((objective, index) => (
-                    <li key={index} className="flex items-start">
-                      <CheckCircle className="mr-2 h-5 w-5 text-green-500 flex-shrink-0" />
-                      <span>{objective}</span>
-                    </li>
-                  ))}
-              </ul>
-            </CardContent>
-          </Card>
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Course Description</CardTitle>
-            </CardHeader>
-            <CardContent>{studentViewCourseDetails?.description}</CardContent>
-          </Card>
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Course Curriculum</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {studentViewCourseDetails?.curriculum?.map(
-                (curriculumItem, index) => (
-                  <li
-                    className={`${
-                      curriculumItem?.freePreview
-                        ? "cursor-pointer"
-                        : "cursor-not-allowed"
-                    } flex items-center mb-4`}
-                    onClick={
-                      curriculumItem?.freePreview
-                        ? () => handleSetFreePreview(curriculumItem)
-                        : null
+    <div className="min-h-screen bg-gray-100">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <div className="flex space-x-8">
+          <aside className="w-1/5 space-y-4">
+            <Card>
+              <CardContent className="p-4">
+                <h2 className="text-sm font-semibold mb-2">
+                  Course Navigation
+                </h2>
+                {modules.map((module, index) => (
+                  <Collapsible
+                    key={index}
+                    open={index === 0 ? isModule1Open : isModule2Open}
+                    onOpenChange={
+                      index === 0 ? setIsModule1Open : setIsModule2Open
                     }
                   >
-                    {curriculumItem?.freePreview ? (
-                      <PlayCircle className="mr-2 h-4 w-4" />
-                    ) : (
-                      <Lock className="mr-2 h-4 w-4" />
-                    )}
-                    <span>{curriculumItem?.title}</span>
-                  </li>
-                )
-              )}
-            </CardContent>
-          </Card>
-        </main>
-        <aside className="flex-1 md:flex-[9] w-full md:w-[500px]">
-          <Card className="sticky top-4">
-            <CardContent className="p-6">
-              <div className="aspect-video mb-4 rounded-lg flex items-center justify-center">
-                Video upload
-                {/* <VideoPlayer
-                  url={
-                    getIndexOfFreePreviewUrl !== -1
-                      ? studentViewCourseDetails?.curriculum[
-                          getIndexOfFreePreviewUrl
-                        ].videoUrl
-                      : ""
-                  }
-                  width="450px"
-                  height="200px"
-                /> */}
-              </div>
-              <div className="mb-4">
-                <span className="text-3xl font-bold">
-                  ${studentViewCourseDetails?.pricing}
-                </span>
-              </div>
-              <Button className="w-full">
-                Buy Now
-              </Button>
-            </CardContent>
-          </Card>
-        </aside>
-      </div>
-      <Dialog
-        open={showFreePreviewDialog}
-        onOpenChange={() => {
-          setShowFreePreviewDialog(false);
-          setDisplayCurrentVideoFreePreview(null);
-        }}
-      >
-        <DialogContent className="w-[800px]">
-          <DialogHeader>
-            <DialogTitle>Course Preview</DialogTitle>
-          </DialogHeader>
-          <div className="aspect-video rounded-lg flex items-center justify-center">
-            Video upload
-            {/* <VideoPlayer
-              url={displayCurrentVideoFreePreview}
-              width="450px"
-              height="200px"
-            /> */}
-          </div>
-          <div className="flex flex-col gap-2">
-            {studentViewCourseDetails?.curriculum
-              ?.filter((item) => item.freePreview)
-              .map((filteredItem) => (
-                <p
-                  onClick={() => handleSetFreePreview(filteredItem)}
-                  className="cursor-pointer text-[16px] font-medium"
-                >
-                  {filteredItem?.title}
-                </p>
+                    <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md border p-2 text-sm font-medium mb-2">
+                      {module.title}
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform duration-200 ${
+                          (index === 0 ? isModule1Open : isModule2Open)
+                            ? "rotate-180"
+                            : ""
+                        }`}
+                      />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="space-y-2">
+                      {module.lessons.map((lesson, lessonIndex) => (
+                        <div
+                          key={lessonIndex}
+                          className="rounded-md bg-gray-100 p-2 text-sm"
+                        >
+                          <TabsList className="">
+                            <TabsTrigger value={lesson.value}>
+                              <div className="rounded-md bg-gray-100 p-2 text-sm flex items-center">
+                                <BookOpen className="h-4 w-4 mr-2" />
+                                <p className="overflow-ellipsis">{lesson.title}</p>
+                              </div>
+                            </TabsTrigger>
+                          </TabsList>
+                        </div>
+                      ))}
+                    </CollapsibleContent>
+                  </Collapsible>
+                ))}
+              </CardContent>
+            </Card>
+          </aside>
+
+          <section className="flex-1">
+      
+            <TabsContent
+              value="item1"
+              className="bg-white p-8 rounded-lg shadow-md"
+            >
+              <h2 className="text-xl font-bold mb-4">Course Overview</h2>
+              <p className="mb-4">
+                Welcome to Course 1. This comprehensive course will guide you
+                through...
+              </p>
+              <h3 className="text-lg font-semibold mb-2">What you'll learn</h3>
+              <ul className="list-disc list-inside mb-4">
+                <li>Fundamental concepts of the subject</li>
+                <li>Practical applications and real-world examples</li>
+                <li>Advanced techniques and strategies</li>
+              </ul>
+              <h3 className="text-lg font-semibold mb-2">Course Description</h3>
+              <p>
+                This course is designed to provide you with a deep understanding
+                of the subject matter. Through a combination of video lectures,
+                interactive quizzes, and hands-on projects, you'll gain both
+                theoretical knowledge and practical skills.
+              </p>
+            </TabsContent>
+
+            <TabsContent
+              value="item2"
+              className="bg-white p-8 rounded-lg shadow-md"
+            >
+              <h2 className="text-xl font-bold mb-4">Course Curriculum</h2>
+              {modules.map((module, index) => (
+                <div key={index} className="mb-6">
+                  <h3 className="text-lg font-semibold mb-2">{module.title}</h3>
+                  <ul className="list-disc list-inside">
+                    {module.lessons.map((lesson, lessonIndex) => (
+                      <li key={lessonIndex} className="mb-1 flex items-center">
+                        <lesson.icon className="h-4 w-4 mr-2 inline" />
+                        {lesson.title}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-          </div>
-          <DialogFooter className="sm:justify-start">
-            <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Close
-              </Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            </TabsContent>
+
+            <TabsContent
+              value="item3"
+              className="bg-white p-8 rounded-lg shadow-md"
+            >
+              <h2 className="text-xl font-bold mb-4">Course Resources</h2>
+              <ul className="list-disc list-inside">
+                <li>
+                  Course textbook: "Introduction to the Subject" by John Doe
+                </li>
+                <li>
+                  Supplementary reading materials (available in PDF format)
+                </li>
+                <li>Online discussion forum for peer-to-peer learning</li>
+                <li>
+                  Weekly office hours with the instructor (schedule to be
+                  announced)
+                </li>
+              </ul>
+            </TabsContent>
+
+            <TabsContent
+              value="item4"
+              className="bg-white p-8 rounded-lg shadow-md"
+            >
+              <h2 className="text-xl font-bold mb-4">Course Discussions</h2>
+              <p className="mb-4">
+                Welcome to the course discussion forum. Here, you can interact
+                with your peers and instructors, ask questions, and share
+                insights.
+              </p>
+              <div className="space-y-4">
+                <div className="p-4 border rounded-md">
+                  <h3 className="font-semibold">
+                    Thread: Question about Module 1
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Started by: Jane Smith | 2 days ago
+                  </p>
+                  <p className="mt-2">
+                    I'm having trouble understanding the concept explained in
+                    Lesson 2. Can someone help clarify?
+                  </p>
+                </div>
+                <div className="p-4 border rounded-md">
+                  <h3 className="font-semibold">
+                    Thread: Great resource for additional study
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Started by: Mike Johnson | 1 week ago
+                  </p>
+                  <p className="mt-2">
+                    I found this amazing article that complements the material
+                    in Module 2. Thought I'd share it with everyone!
+                  </p>
+                </div>
+              </div>
+              <Button className="mt-4">Start New Discussion</Button>
+            </TabsContent>
+
+            <TabsContent
+              value="item5"
+              className="bg-white p-8 rounded-lg shadow-md"
+            >
+              <h2 className="text-xl font-bold mb-4">Course Discussions</h2>
+              <p className="mb-4">
+                Welcome to the course discussion forum. Here, you can interact
+                with your peers and instructors, ask questions, and share
+                insights.
+              </p>
+              <Button className="mt-4">Start New Discussion</Button>
+            </TabsContent>
+
+            <TabsContent
+              value="item4"
+              className="bg-white p-8 rounded-lg shadow-md"
+            >
+              <div className="space-y-4">
+                <div className="p-4 border rounded-md">
+                  <h3 className="font-semibold">
+                    Thread: Question about Module 1
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Started by: Jane Smith | 2 days ago
+                  </p>
+                  <p className="mt-2">
+                    I'm having trouble understanding the concept explained in
+                    Lesson 2. Can someone help clarify?
+                  </p>
+                </div>
+              </div>
+              <Button className="mt-4">Start New Discussion</Button>
+            </TabsContent>
+          </section>
+        </div>
+      </Tabs>
+      <div className="mt-8 text-center">
+        <Button className="mt-4">Complete Lesson</Button>
+      </div>
     </div>
   );
 }

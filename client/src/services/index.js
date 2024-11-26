@@ -50,6 +50,10 @@ export async function fetchCourseDetailsService(courseId) {
     `/student/course/get/details/${courseId}`
   );
 
-
+  return data;
+}
+// get Data course demo
+export async function getDataDemo(){
+  const { data } = await axiosInstance.get(`/dashboard/course/get-data`);
   return data;
 }

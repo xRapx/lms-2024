@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const LectureSchema = new mongoose.Schema({
   title: String,
@@ -8,28 +9,21 @@ const LectureSchema = new mongoose.Schema({
 });
 
 const CourseSchema = new mongoose.Schema({
-  instructorId: String,
-  instructorName: String,
-  date: Date,
-  title: String,
+  name: String,
+  subject_name: String,
+  subject_id: { type: Schema.Types.ObjectId, ref: "Subject", required: true },
+  certificate_name: String,
+  certificate_id: { type: Schema.Types.ObjectId, ref: "Certificate", required: true },
+  examBoard_name:String,
+  examBoard_id: { type: Schema.Types.ObjectId, ref: "ExamBoard", required: true },
+  lesson: String,
   category: String,
   level: String,
   primaryLanguage: String,
-  subtitle: String,
   description: String,
   image: String,
   welcomeMessage: String,
-  pricing: Number,
   objectives: String,
-  students: [
-    {
-      studentId: String,
-      studentName: String,
-      studentEmail: String,
-      paidAmount: String,
-    },
-  ],
-  curriculum: [LectureSchema],
   isPublised: Boolean,
 });
 

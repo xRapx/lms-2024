@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { getDataDemo } from "@/services";
+import { createContext, useEffect, useState } from "react";
 
 export const StudentContext = createContext(null);
 
@@ -11,6 +12,19 @@ export default function StudentProvider({ children }) {
   const [studentBoughtCoursesList, setStudentBoughtCoursesList] = useState([]);
   const [studentCurrentCourseProgress, setStudentCurrentCourseProgress] =
     useState({});
+  // demo
+  const [courses , setCourse] = useState([])
+
+  // fetch courses
+  async function fetchCourse () {
+    const response = await getDataDemo()
+    setCourse(response?.data)
+  }
+
+  useEffect(() => {
+    fetchCourse()
+  },[])
+
 
   return (
     <StudentContext.Provider
@@ -27,6 +41,7 @@ export default function StudentProvider({ children }) {
         setStudentBoughtCoursesList,
         studentCurrentCourseProgress,
         setStudentCurrentCourseProgress,
+        courses
       }}
     >
       {children}
