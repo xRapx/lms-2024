@@ -56,5 +56,6 @@ export async function fetchCourseDetailsService(courseId) {
 // get Data course demo
 export async function getDataDemo(){
   const { data } = await axios.get(`https://server-lms-2024.onrender.com/dashboard/course/get-data`);
+  console.log(data)
   return data;
 }

@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import banner from "/src/assets/image/banner-img.png";
+
 import { getDataDemo } from "@/services";
 import {
   ArrowRight,
@@ -30,6 +31,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import TypeWrite from "@/components/TypeWrite";
 // import { courseCategories } from "@/config";
 
 function StudentHomePage() {
@@ -38,6 +40,10 @@ function StudentHomePage() {
   const [listSubject, setListSubject] = useState([]);
   console.log(certificate);
   console.log(listSubject);
+
+  // type write component
+  const words1 = ["Learning thet gets you"];
+  const words2 = ["Transform Your Learning Process"];
 
   const navigate = useNavigate();
 
@@ -53,15 +59,17 @@ function StudentHomePage() {
     navigate("/courses");
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     fetchCertificate();
-  },[])
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
       <section className="flex flex-col lg:flex-row items-center justify-between py-8 px-4 lg:px-8">
         <div className="lg:w-1/2 lg:pr-12">
-          <h1 className="text-4xl font-bold mb-4">Learning thet gets you</h1>
+          <h1 className="text-4xl font-bold mb-4">
+            <TypeWrite words={words1} />
+          </h1>
           <p className="text-xl">
             Skills for your present and your future. Get Started with US
           </p>
@@ -87,7 +95,7 @@ function StudentHomePage() {
                   className="pl-1 md:basis-1/2 lg:basis-1/3"
                 >
                   <div className="p-1">
-                    <Card>
+                    <Card className="hover:shadow-lg transform  rounded-xl bg-white shadow-xl transition duration-300 hover:scale-105">
                       <CardHeader>
                         <Stars className="text-green-500" />
                         <span className="text-2xl font-semibold ml-2">
@@ -102,7 +110,11 @@ function StudentHomePage() {
                       </CardContent>
 
                       <CardFooter>
-                        <Button variant="ghost" className="hover:bg-gray-950 hover:text-white" onClick={() =>handleNavigate()}>
+                        <Button
+                          variant="ghost"
+                          className="hover:bg-gray-950 hover:text-white"
+                          onClick={() => handleNavigate()}
+                        >
                           Learn More <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </CardFooter>
@@ -122,15 +134,17 @@ function StudentHomePage() {
           {/* Hero Area */}
           <div className="flex flex-col items-center space-y-4 text-center mb-12">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-            Transform Your Learning Process
+              <TypeWrite words={words2}/>
             </h1>
             <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
               Boost productivity and streamline your processes with our
               cutting-edge platform.
             </p>
             <div className="space-x-4">
-              <Button onClick={() =>handleNavigate()}>Get Started</Button>
-              <Button variant="outline" onClick={() =>handleNavigate()} >Learn More</Button>
+              <Button onClick={() => handleNavigate()}>Get Started</Button>
+              <Button variant="outline" onClick={() => handleNavigate()}>
+                Learn More
+              </Button>
             </div>
           </div>
 
@@ -149,7 +163,7 @@ function StudentHomePage() {
                 work without any delays or interruptions.
               </CardContent>
               <CardFooter>
-                <Button variant="ghost" onClick={() =>handleNavigate()}>
+                <Button variant="ghost" onClick={() => handleNavigate()}>
                   Learn More <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardFooter>
@@ -167,7 +181,7 @@ function StudentHomePage() {
                 across different time zones and locations.
               </CardContent>
               <CardFooter>
-                <Button variant="ghost" onClick={() =>handleNavigate()}>
+                <Button variant="ghost" onClick={() => handleNavigate()}>
                   Learn More <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardFooter>
@@ -185,7 +199,7 @@ function StudentHomePage() {
                 get up to speed quickly and easily.
               </CardContent>
               <CardFooter>
-                <Button variant="ghost" onClick={() =>handleNavigate()}>
+                <Button variant="ghost" onClick={() => handleNavigate()}>
                   Learn More <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardFooter>
