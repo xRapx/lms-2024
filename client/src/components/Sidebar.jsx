@@ -16,7 +16,6 @@ import {
   Menu,
   Minus,
   Plus,
-  Settings,
 } from "lucide-react";
 
 function SideBar({ sidebar, handleSideBar }) {
