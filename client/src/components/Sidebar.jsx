@@ -145,7 +145,7 @@ function SideBar({ sidebar, handleSideBar }) {
                                           className="w-full flex justify-end "
                                         >
                                           {isOpen && (
-                                            <span className="flex items-center bg-gray-200 mr-2 px-2 rounded-lg">
+                                            <span className="flex items-center mr-2 px-2 rounded-lg">
                                               <BookOpen className="mr-2 h-4 w-4" />
                                               <span>{course.name}</span>
                                             </span>

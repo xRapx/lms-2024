@@ -11,11 +11,8 @@ import { StudentContext } from "@/context/student-context";
 // import file
 import CardItem from "@/components/CardItem";
 import SideBar from "@/components/Sidebar";
-import { BookCheckIcon } from "lucide-react";
 
 function StudentViewCoursesPage() {
-  // const [sort, setSort] = useState("price-lowtohigh");
-  // console.log(sort)
 
   const { filteredCourses, handleSideBar, sidebar } =
     useContext(StudentContext);

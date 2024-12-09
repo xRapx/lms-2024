@@ -6,6 +6,9 @@ export const StudentContext = createContext(null);
 export default function StudentProvider({ children }) {
   const [loadingState, setLoadingState] = useState(true);
 
+  // student state
+  const [studentViewCourseDetails, setStudentViewCourseDetails] = useState([])
+
   // demo
   const [courseList, setCourseList] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
@@ -102,6 +105,8 @@ export default function StudentProvider({ children }) {
         handleFilter,
         setCourseList,
         handleSideBar,
+        studentViewCourseDetails,
+    setStudentViewCourseDetails,
       }}
     >
       {children}

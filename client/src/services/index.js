@@ -47,8 +47,8 @@ export async function updateCourseByIdService(id, formData) {
 
 // student service
 export async function fetchCourseDetailsService(courseId) {
-  const { data } = await axiosInstance.get(
-    `/student/course/get/details/${courseId}`
+  const { data } = await axios.get(
+    `https://server-lms-2024.onrender.com/student/course/get/details/${courseId}`
   );
 
   return data;

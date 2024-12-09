@@ -1,9 +1,26 @@
 /* eslint-disable react/prop-types */
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import banner from "/src/assets/image/banner-img.png";
 
 const CardItem = ({ courses }) => {
+  const navigate = useNavigate()
+
+  async function handleNavigate(id){
+    try {
+      await fetch(`https://server-lms-2024.onrender.com/student/course/get/details/${id}`)
+      .then(response => response.json()) 
+      .then(data => { console.log(data);
+        // Navigate to the course page with the provided ID
+        navigate(`/courses/details/${id}`, { state: data });
+    });
+     
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -32,7 +49,7 @@ const CardItem = ({ courses }) => {
                   <span className="font-medium">{course.level}</span>
                 </div>
                 <div className="pt-2 flex items-center justify-between border-t">
-                  <Button>Learn</Button>
+                  <Button onClick={() => handleNavigate(course._id)}>Learn</Button>
                 </div>
               </div>
             </CardContent>
