@@ -15,7 +15,6 @@ import { useContext } from "react";
 import { AuthContext } from "./context/auth-context";
 import RouteGuard from "./components/middleware/auth-middleware";
 import AddNewCoursePage from "./pages/teacher/add-new-course";
-import MultiLevelMenu from "./pages/demo";
 
 
 
@@ -50,8 +49,7 @@ function App() {
             path="courses/details/:id"
             element={<StudentViewCourseDetailsPage />}
           />{" "}
-          <Route path="student-courses" element={<StudentCoursesPage />} />{" "}
-          <Route path="demo" element={<MultiLevelMenu />} />{" "}
+          <Route path="student-courses" element={<StudentCoursesPage />} />{" "}  
           <Route
             path="course-progress/:id"
             element={<StudentViewCourseProgressPage />}
