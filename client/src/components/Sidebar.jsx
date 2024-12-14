@@ -17,6 +17,7 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function SideBar({ sidebar, handleSideBar }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -94,7 +95,7 @@ function SideBar({ sidebar, handleSideBar }) {
                         >
                           <span className="flex items-center ">
                             <CheckSquare className="mr-2 h-4 w-4 text-green-500" />
-                            {isOpen && <span >{certificate.name}</span>}
+                            {isOpen && <span>{certificate.name}</span>}
                           </span>
                         </Button>
                       </CollapsibleTrigger>
@@ -169,10 +170,12 @@ function SideBar({ sidebar, handleSideBar }) {
       </nav>
       <div className="p-4">
         <Button variant="ghost" className="w-full flex justify-center">
-          <span className="flex items-center">
-            <HelpCircle className="mr-2 h-4 w-4" />
-            {isOpen && <span> Help</span>}
-          </span>
+          <Link to="/FAQ">
+            <span className="flex items-center">
+              <HelpCircle className="mr-2 h-4 w-4" />
+              {isOpen && <span> Help</span>}
+            </span>
+          </Link>
         </Button>
       </div>
     </aside>

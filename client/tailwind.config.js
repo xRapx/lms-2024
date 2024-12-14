@@ -63,18 +63,46 @@ export default {
   				ring: 'hsl(var(--sidebar-ring))'
   			}
   		},
-		  keyframes: {
-			roll: {
-			  '0%': { transform: 'rotateX(45deg) rotateY(-45deg)'},
-			  '25%': { transform: 'rotateX(-45deg) rotateY(-45deg)'},
-			  '50%': { transform: 'rotateX(45deg) rotateY(45deg)'},
-			  '75%': { transform: 'rotateX(-45deg) rotateY(45deg)'},
-			  '100%': { transform: 'rotateX(45deg) rotateY(-45deg)'}
-			}
-		  },
-		  animation: {
-			roll: 'roll 5s infinite',
-		  }
+  		keyframes: {
+  			roll: {
+  				'0%': {
+  					transform: 'rotateX(45deg) rotateY(-45deg)'
+  				},
+  				'25%': {
+  					transform: 'rotateX(-45deg) rotateY(-45deg)'
+  				},
+  				'50%': {
+  					transform: 'rotateX(45deg) rotateY(45deg)'
+  				},
+  				'75%': {
+  					transform: 'rotateX(-45deg) rotateY(45deg)'
+  				},
+  				'100%': {
+  					transform: 'rotateX(45deg) rotateY(-45deg)'
+  				}
+  			},
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		},
+  		animation: {
+  			roll: 'roll 5s infinite',
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
+  		}
   	}
   },
   plugins: [animatePlugin],

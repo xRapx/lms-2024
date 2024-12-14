@@ -16,6 +16,7 @@ import { AuthContext } from "./context/auth-context";
 import RouteGuard from "./components/middleware/auth-middleware";
 import AddNewCoursePage from "./pages/teacher/add-new-course";
 import StudentExercisePage from "./pages/student/student-excersice";
+import FAQPage from "./pages/student/FAQ";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -48,6 +49,7 @@ function App() {
           />
           <Route path="student-courses" element={<StudentCoursesPage />} />
           <Route path="student-exercise" element={<StudentExercisePage />} />
+          <Route path="FAQ" element={<FAQPage />} />
           {/* <Route
             path="course-progress/:id"
             element={<StudentViewCourseProgressPage />}

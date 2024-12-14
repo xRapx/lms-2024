@@ -56,7 +56,7 @@ function Header() {
                     ? null
                     : navigate("/courses");
                 }}
-                className="text-[14px] md:text-[16px] animate-bounce focus:animate-none hover:animate-none inline-flex text-md font-medium bg-green-400 mt-3 px-4 py-2 rounded-lg tracking-wide "
+                className="text-[14px] md:text-[16px] animate-bounce focus:animate-none hover:animate-none inline-flex text-md font-medium bg-green-300 mt-3 px-4 py-2 rounded-lg tracking-wide "
               >
                 <Lightbulb className="text-white"/>
                 Explore Courses

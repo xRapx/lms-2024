@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./header";
+import { Footer } from "../Footer";
 
 function StudentNavLayout() {
   const location = useLocation();
@@ -10,6 +11,8 @@ function StudentNavLayout() {
       ) : null}
 
       <Outlet />
+
+      <Footer/>
     </div>
   );
 }
