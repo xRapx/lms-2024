@@ -32,7 +32,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import TypeWrite from "@/components/TypeWrite";
-// import { courseCategories } from "@/config";
+import { courseCategories } from "@/config";
 
 function StudentHomePage() {
   // state

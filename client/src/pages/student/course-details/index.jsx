@@ -18,7 +18,7 @@ import { BookOpen, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import banner from "/src/assets/image/banner-img.png"
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 //fake api
 
@@ -64,6 +64,8 @@ function StudentViewCourseDetailsPage() {
   function handlePDF (pdfLink) { 
     window.open(pdfLink, '_blank'); 
   };
+
+  
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -167,9 +169,14 @@ function StudentViewCourseDetailsPage() {
                               </div>
                             </CardContent>
                           </div>
-                          <CardFooter className="mt-6">
+                          <CardFooter className="mt-6 flex justify-between space-x-4">
                               <Button size="lg" className="w-full" onClick={() => handlePDF(lesson.pdfLink)}>
                                   Start Learning
+                              </Button>
+                              <Button size="lg" className="w-full" >
+                                <Link to="/student-exercise">
+                                  Exercise Course
+                                </Link>
                               </Button>
                           </CardFooter>
                         </div>

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react-refresh/only-export-components */
 import { getDataDemo } from "@/services";
 import { createContext, useEffect, useState } from "react";
 
@@ -106,7 +108,7 @@ export default function StudentProvider({ children }) {
         setCourseList,
         handleSideBar,
         studentViewCourseDetails,
-    setStudentViewCourseDetails,
+        setStudentViewCourseDetails,
       }}
     >
       {children}

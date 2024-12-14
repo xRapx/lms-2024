@@ -8,7 +8,6 @@ import { useContext } from "react";
 function CourseLanding() {
   const { courseLandingFormData, setCourseLandingFormData } =
     useContext(TeacherContext);
-
   return (
     <Card>
       <CardHeader>

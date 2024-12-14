@@ -15,8 +15,7 @@ import { useContext } from "react";
 import { AuthContext } from "./context/auth-context";
 import RouteGuard from "./components/middleware/auth-middleware";
 import AddNewCoursePage from "./pages/teacher/add-new-course";
-
-
+import StudentExercisePage from "./pages/student/student-excersice";
 
 function App() {
   const { auth } = useContext(AuthContext);
@@ -24,37 +23,36 @@ function App() {
   return (
     <>
       <Routes>
-        {" "}
-        <Route path="/auth" element={<AuthPage />} />{" "}
+        <Route path="/auth" element={<AuthPage />} />
         <Route
           path="/dashboard"
           element={<RouteGuard element={<DashboardPage />} />}
-        />{" "}
-       <Route
-        path="/dashboard/create-new-course"
-        element={
-          <RouteGuard
-            element={<AddNewCoursePage />}
-            authenticated={auth?.authenticate}
-            user={auth?.user}
-          />
-        }
-      />
+        />
+        <Route
+          path="/dashboard/create-new-course"
+          element={
+            <RouteGuard
+              element={<AddNewCoursePage />}
+              authenticated={auth?.authenticate}
+              user={auth?.user}
+            />
+          }
+        />
         <Route path="/" element={<RouteGuard element={<StudentNavLayout />} />}>
-          {" "}
-          <Route path="" element={<StudentHomePage />} />{" "}
-          <Route path="home" element={<StudentHomePage />} />{" "}
-          <Route path="courses" element={<StudentViewCoursesPage />} />{" "}
+          <Route path="" element={<StudentHomePage />} />
+          <Route path="home" element={<StudentHomePage />} />
+          <Route path="courses" element={<StudentViewCoursesPage />} />
           <Route
             path="courses/details/:id"
             element={<StudentViewCourseDetailsPage />}
-          />{" "}
-          <Route path="student-courses" element={<StudentCoursesPage />} />{" "}  
-          <Route
+          />
+          <Route path="student-courses" element={<StudentCoursesPage />} />
+          <Route path="student-exercise" element={<StudentExercisePage />} />
+          {/* <Route
             path="course-progress/:id"
             element={<StudentViewCourseProgressPage />}
-          />{" "}
-        </Route>{" "}
+          /> */}
+        </Route>
       </Routes>
     </>
   );

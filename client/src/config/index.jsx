@@ -84,20 +84,36 @@ export const signUpFormControls = [
   
   export const courseLandingPageFormControls = [
 	{
-	  name: "title",
-	  label: "Title",
+	  name: "name",
+	  label: "Name",
 	  componentType: "input",
 	  type: "text",
-	  placeholder: "Enter course title",
+	  placeholder: "Enter course name",
 	},
 	{
-	  name: "category",
-	  label: "Category",
+	  name: "certificate",
+	  label: "Certificate",
 	  componentType: "select",
 	  type: "text",
 	  placeholder: "",
 	  options: courseCategories,
 	},
+	{
+		name: "subject",
+		label: "Subject",
+		componentType: "select",
+		type: "text",
+		placeholder: "",
+		options: courseCategories,
+	  },
+	  {
+		name: "examBoard",
+		label: "ExamBoard",
+		componentType: "select",
+		type: "text",
+		placeholder: "",
+		options: courseCategories,
+	  },
 	{
 	  name: "level",
 	  label: "Level",
@@ -107,33 +123,11 @@ export const signUpFormControls = [
 	  options: courseLevelOptions,
 	},
 	{
-	  name: "primaryLanguage",
-	  label: "Primary Language",
-	  componentType: "select",
-	  type: "text",
-	  placeholder: "",
-	  options: languageOptions,
-	},
-	{
-	  name: "subtitle",
-	  label: "Subtitle",
-	  componentType: "input",
-	  type: "text",
-	  placeholder: "Enter course subtitle",
-	},
-	{
 	  name: "description",
 	  label: "Description",
 	  componentType: "textarea",
 	  type: "text",
 	  placeholder: "Enter course description",
-	},
-	{
-	  name: "pricing",
-	  label: "Pricing",
-	  componentType: "input",
-	  type: "number",
-	  placeholder: "Enter course pricing",
 	},
 	{
 	  name: "objectives",
@@ -151,13 +145,12 @@ export const signUpFormControls = [
   ];
   
   export const courseLandingInitialFormData = {
-	title: "",
-	category: "",
+	name: "",
+	certificate: "",
+	subject:"",
+	examBoard:"",
 	level: "",
-	primaryLanguage: "",
-	subtitle: "",
 	description: "",
-	pricing: "",
 	objectives: "",
 	welcomeMessage: "",
 	image: "",
@@ -165,7 +158,7 @@ export const signUpFormControls = [
   
   export const courseCurriculumInitialFormData = [
 	{
-	  title: "",
+	  name: "",
 	  videoUrl: "",
 	  freePreview: false,
 	  public_id: "",
